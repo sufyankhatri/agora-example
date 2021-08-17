@@ -8,6 +8,7 @@ import {
   ICameraVideoTrack,
   IMicrophoneAudioTrack,
 } from 'agora-rtc-react';
+import { postImage } from './Modules/service';
 
 const config: ClientConfig = {
   mode: 'rtc',
@@ -15,7 +16,8 @@ const config: ClientConfig = {
 };
 
 const appId: string = '7c09a5c3cb8c430d9eb3b2c695dad0c6'; //ENTER APP ID HERE
-const token: string='0067c09a5c3cb8c430d9eb3b2c695dad0c6IAAakug0GrhOeHF2g69gToaR6PeKqNiYT+EI/MjrWCyrhMJBJDUAAAAAEAC+QOqNi2UbYQEAAQCLZRth';
+const token: string =
+  '0067c09a5c3cb8c430d9eb3b2c695dad0c6IAAhNpzqK9a0inU05/vV3WXs99Avv7qL6BLplviHgEcRlsJBJDUAAAAAEABa3tZEesscYQEAAQB6yxxh';
 
 const App = () => {
   const [inCall, setInCall] = useState(false);
@@ -116,17 +118,23 @@ const Videos = (props: {
   tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
 }) => {
   const { users, tracks } = props;
-
+  let imgData = tracks[1]?.getCurrentFrameData();
+  console.log('NNN', imgData);
+ postImage(imgData);
+ // const objImg = new Buffer.from(imgData.data).toString('base64');
+ // console.log(objImg);
   return (
     <div>
       <div id='videos'>
         {/* AgoraVideoPlayer component takes in the video track to render the stream,
             you can pass in other props that get passed to the rendered div */}
+
         <AgoraVideoPlayer
           style={{ height: '95%', width: '95%' }}
           className='vid'
           videoTrack={tracks[1]}
         />
+        {}
         {users.length > 0 &&
           users.map((user) => {
             if (user.videoTrack) {
